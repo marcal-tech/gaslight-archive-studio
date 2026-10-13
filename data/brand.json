@@ -1,0 +1,22 @@
+{
+  "channel_name": "Gaslight Archive",
+  "language": "en",
+  "voice": {
+    "model": "text2speech_v2",
+    "variant": "elevenlabs",
+    "voice_type": "preset",
+    "voice_id": "1ad38ba4-9cc4-4f2f-9fde-b0fefdf67ae5",
+    "name": "Gideon"
+  },
+  "image": {
+    "model": "z_image",
+    "aspect_ratio": "16:9",
+    "style": "Style: dark cinematic oil painting, deep black shadows, low-key chiaroscuro lighting, single warm candle or torch light source, desaturated earthy palette of umber, ochre and charcoal, ominous atmosphere, haze, fine film grain, painterly brushstrokes, Rembrandt and Caravaggio influence, historically accurate costumes and architecture, no text, no watermark, no modern objects."
+  },
+  "thumbnail": {
+    "model": "gpt_image_2_5",
+    "style": "YouTube thumbnail, 16:9, one dramatic focal subject, extreme contrast, dark background with a single warm rim light, 2-4 word title in huge bold white uppercase serif with thin red accent, text readable at small size, cinematic oil painting look."
+  },
+  "handle": "@GaslightArchive",
+  "card_subtitle": "Gaslight Archive"
+}

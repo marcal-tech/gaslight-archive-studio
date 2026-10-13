@@ -1,0 +1,281 @@
+{
+  "scenes": [
+    {
+      "id": "00a",
+      "chapter": "Introduction",
+      "card": "The Dancing Plague",
+      "duration": 3.5,
+      "sub": "Gaslight Archive"
+    },
+    {
+      "id": "00b",
+      "card": "Strasbourg, July 1518",
+      "duration": 2.5
+    },
+    {
+      "id": "01",
+      "motion": "in",
+      "image": "images/01.png",
+      "audio": "audio/01.mp3",
+      "text": "On a hot July day in 1518, a woman named Frau Troffea stepped out of her house in Strasbourg, and began to dance.",
+      "prompt": "Night, darkness. A lone woman in a plain 16th-century peasant dress begins to dance alone in an empty narrow cobblestone street of medieval Strasbourg, half-timbered houses towering on both sides, a single lantern glowing in a window"
+    },
+    {
+      "id": "02",
+      "motion": "left",
+      "image": "images/02.png",
+      "audio": "audio/02.mp3",
+      "text": "There was no music. There was no celebration. Her husband begged her to stop. She didn't.",
+      "prompt": "Dim candlelit doorway, a desperate 16th-century peasant man reaching out with both hands toward his wife who dances away from him with a blank, unseeing stare, deep shadows"
+    },
+    {
+      "id": "03",
+      "motion": "in",
+      "image": "images/03.png",
+      "audio": "audio/03.mp3",
+      "text": "She danced until her feet were swollen and bloody. She collapsed, slept, woke up... and danced again. For days.",
+      "prompt": "Close-up at ground level of worn leather shoes on dark wet cobblestones, a woman's exhausted feet mid-step, torn hem of a dress, a single torch light from the side, oppressive darkness"
+    },
+    {
+      "id": "04",
+      "motion": "out",
+      "image": "images/04.png",
+      "audio": "audio/04.mp3",
+      "text": "And then something far more frightening happened. Her neighbors started dancing too.",
+      "prompt": "Night, darkness. Several 16th-century townspeople in a cramped medieval street begin to sway and dance with vacant trance-like expressions, while others watch in horror from shadowed doorways"
+    },
+    {
+      "id": "05",
+      "motion": "right",
+      "image": "archive/hondius-dancing-mania.jpg",
+      "audio": "audio/05.mp3",
+      "text": "Within a week, more than thirty people were twisting and leaping through the streets. By August, some chroniclers claimed there were four hundred.",
+      "prompt": "Wide view of a medieval town square in Strasbourg at dusk, a large crowd of peasants dancing chaotically, the gothic cathedral spire looming in the dark sky behind, torches and smoke",
+      "ai_image": "images/05.png",
+      "archival": true,
+      "caption": "The Dancing Mania — engraving by Hendrik Hondius after Pieter Brueghel, 1642",
+      "credit": "Wellcome Collection, CC BY 4.0"
+    },
+    {
+      "id": "06",
+      "motion": "up",
+      "image": "images/06.png",
+      "audio": "audio/06.mp3",
+      "text": "The city's response was so strange it almost sounds like a joke. They built a stage. They hired musicians. They paid strong men to hold the dancers up.",
+      "prompt": "A crude wooden stage in a medieval market at night, renaissance pipers and drummers playing, burly men holding up collapsing exhausted dancers by the arms, torchlight and deep shadows"
+    },
+    {
+      "id": "07",
+      "motion": "in",
+      "image": "images/07.png",
+      "audio": "audio/07.mp3",
+      "text": "Today, you'll find the same chilling claim almost everywhere this story is told: that at its peak, the dancing plague killed fifteen people a day.",
+      "prompt": "Dark candlelit interior, several bodies covered with rough linen sheets lying on wooden benches in a gloomy 16th-century chapel, a single candle, no gore, somber and still"
+    },
+    {
+      "id": "08",
+      "motion": "out",
+      "image": "images/08.png",
+      "audio": "audio/08.mp3",
+      "text": "But when you go back to the records written in Strasbourg that summer, something doesn't add up. So what really happened in 1518? And why did hundreds of people dance until they could barely stand?",
+      "prompt": "An old leather-bound 16th-century city ledger open on a dark wooden desk, faded handwritten pages, a quill and inkwell, lit by one flickering candle, surrounded by darkness"
+    },
+    {
+      "id": "09",
+      "chapter": "A City on the Edge",
+      "text": "To understand the dancers, you have to understand the city they lived in.",
+      "audio": "audio/09.mp3",
+      "image": "images/09.png",
+      "prompt": "Night, darkness. Aerial view over the steep rooftops of medieval Strasbourg, the gothic cathedral spire rising above, a few lit windows, mist over the river Ill"
+    },
+    {
+      "id": "10",
+      "text": "Strasbourg in 1518 was a free imperial city on the Rhine, crowned by one of the tallest cathedrals in Europe.",
+      "audio": "audio/10.mp3",
+      "image": "archive/strasbourg-schedel-1493-crop.jpg",
+      "archival": true,
+      "caption": "Strasbourg (“Argentina”) — woodcut from the Nuremberg Chronicle, 1493",
+      "credit": "Public domain"
+    },
+    {
+      "id": "11",
+      "text": "But its people were suffering. Harvests had failed for years. Bread prices soared, and families sold everything they owned just to eat.",
+      "audio": "audio/11.mp3",
+      "image": "images/11.png",
+      "prompt": "Gaunt 16th-century peasant family in a bare cold hovel sharing a single small loaf of dark bread by a dying fire, hollow cheeks, deep shadows"
+    },
+    {
+      "id": "12",
+      "text": "Disease moved through the region in waves. Smallpox. Leprosy. And a terrifying new illness: syphilis.",
+      "audio": "audio/12.mp3",
+      "image": "archive/durer-syphilitic-1496.jpg",
+      "archival": true,
+      "caption": "The Syphilitic — woodcut attributed to Albrecht Dürer, 1496",
+      "credit": "Public domain"
+    },
+    {
+      "id": "13",
+      "text": "To the people of the Rhineland, none of this was random. It was punishment from God. And one saint was feared above the rest.",
+      "audio": "audio/13.mp3",
+      "image": "images/13.png",
+      "prompt": "Dim gothic church interior, kneeling 16th-century peasants praying desperately before a candlelit altar, painted saints on the walls half in shadow"
+    },
+    {
+      "id": "14",
+      "text": "Saint Vitus. It was believed he could curse a sinner with a compulsion to dance that would not end.",
+      "audio": "audio/14.mp3",
+      "image": "archive/fourteen-holy-helpers.jpg",
+      "archival": true,
+      "caption": "Saints invoked against disease — hand-coloured woodcut, c. 1470 (Rijksmuseum)",
+      "credit": "Rijksmuseum, CC0"
+    },
+    {
+      "id": "15",
+      "chapter": "The Cure That Made It Worse",
+      "text": "As the dancing spread, the city council turned to its physicians.",
+      "audio": "audio/15.mp3",
+      "image": "images/15.png",
+      "prompt": "Night, darkness. Stern 16th-century city councillors in dark robes and fur collars around a heavy oak table in a candlelit council chamber, worried faces"
+    },
+    {
+      "id": "16",
+      "text": "Their verdict was not witchcraft, and not the stars. It was a natural disease, caused by overheated blood.",
+      "audio": "audio/16.mp3",
+      "image": "images/16.png",
+      "prompt": "A 16th-century physician in a black scholar's gown examining a flask of blood by candlelight, old medical books open on the table, shadowy study"
+    },
+    {
+      "id": "17",
+      "text": "And the cure for overheated blood? The dancers would have to dance it out.",
+      "audio": "audio/17.mp3",
+      "image": "images/17.png",
+      "prompt": "Candlelit medieval guild hall at night, exhausted townspeople forced to keep dancing in a circle, faces blank and sweating, onlookers in the shadows"
+    },
+    {
+      "id": "18",
+      "text": "So the city cleared two guild halls, built a wooden stage near the horse market, and hired musicians to play day and night.",
+      "audio": "audio/18.mp3",
+      "image": "images/18.png",
+      "prompt": "Renaissance pipers and drummers playing on a rough wooden stage in a torchlit market square at night, dancers below them, smoke and deep shadows",
+      "motion": "right"
+    },
+    {
+      "id": "19",
+      "text": "It did not work. The music drew crowds. And some in those crowds began to dance as well.",
+      "audio": "audio/19.mp3",
+      "image": "archive/dancing-mania-2.jpg",
+      "archival": true,
+      "caption": "The Dancing Mania — engraving after Pieter Brueghel",
+      "credit": "Wellcome Collection, CC BY 4.0"
+    },
+    {
+      "id": "19b",
+      "card": "August 1518",
+      "duration": 2.5
+    },
+    {
+      "id": "20",
+      "text": "By early August, the council reversed course. Public music and dancing were banned.",
+      "audio": "audio/20.mp3",
+      "image": "images/20.png",
+      "prompt": "A town crier in 16th-century dress reading a proclamation scroll aloud in a dark square at dusk, a few silent townspeople listening, torches"
+    },
+    {
+      "id": "21",
+      "text": "The dancers were taken by wagon to a shrine of Saint Vitus in the hills near Saverne, given small crosses and red shoes, and led around the altar.",
+      "audio": "audio/21.mp3",
+      "image": "images/21.png",
+      "prompt": "Small stone mountain chapel lit by candles, a priest leading exhausted peasants wearing simple red shoes around an altar, crosses in their hands, dark forest outside"
+    },
+    {
+      "id": "22",
+      "text": "And slowly, by early September, the dancing stopped.",
+      "audio": "audio/22.mp3",
+      "image": "images/22.png",
+      "prompt": "Empty narrow medieval street of Strasbourg at grey dawn, wet cobblestones, a single abandoned worn shoe on the ground, quiet mist",
+      "motion": "out"
+    },
+    {
+      "id": "23",
+      "chapter": "Did They Really Die?",
+      "text": "So what about the famous claim? Fifteen dead, every single day?",
+      "audio": "audio/23.mp3",
+      "image": "images/23.png",
+      "prompt": "Dark candlelit study, an old quill pen resting on a page of handwritten tally marks, a guttering candle, heavy shadows"
+    },
+    {
+      "id": "24",
+      "text": "The records written in Strasbourg that summer, the council's notes, the physicians' reports, the sermons, describe the dancing in detail.",
+      "audio": "audio/24.mp3",
+      "image": "images/24.png",
+      "prompt": "Stacks of old 16th-century parchment documents with wax seals and ribbon ties on a dark wooden desk, a single candle illuminating faded script"
+    },
+    {
+      "id": "25",
+      "text": "What they do not clearly record is a body count. The figure of fifteen a day appears only in accounts written later.",
+      "audio": "audio/25.mp3",
+      "image": "images/25.png",
+      "prompt": "A later 16th-century chronicler writing in a large book by candlelight in a dim monastery scriptorium, ink and quill, deep shadows"
+    },
+    {
+      "id": "26",
+      "text": "Exhaustion, heart failure, or infected wounds may well have killed some of the dancers. But that famous statistic rests on far weaker ground than it seems.",
+      "audio": "audio/26.mp3",
+      "image": "images/26.png",
+      "prompt": "A single worn pair of bloodstained leather shoes resting on a stone step in candlelight, darkness around, somber and still, no people"
+    },
+    {
+      "id": "27",
+      "chapter": "What Really Happened",
+      "text": "One popular theory blames ergot, a fungus that grows on damp rye, and contains chemicals related to LSD.",
+      "audio": "audio/27.mp3",
+      "image": "archive/ergot-kohler-1897.jpg",
+      "archival": true,
+      "caption": "Claviceps purpurea (ergot of rye) — Köhler's Medizinal-Pflanzen, 1897",
+      "credit": "Public domain"
+    },
+    {
+      "id": "28",
+      "text": "But historian John Waller points out a problem. Ergot poisoning cuts off blood to the limbs. Its victims could barely walk, let alone dance for days.",
+      "audio": "audio/28.mp3",
+      "image": "images/28.png",
+      "prompt": "Dark field of tall rye stalks at dusk under a stormy sky, a single lantern glowing at the edge of the field, ominous atmosphere"
+    },
+    {
+      "id": "29",
+      "text": "His explanation is darker. A mass psychogenic illness, in a population pushed to its breaking point.",
+      "audio": "audio/29.mp3",
+      "image": "images/29.png",
+      "prompt": "Night, darkness. A crowd of 16th-century townspeople in a torchlit square, some swaying in trance with eyes closed, others staring in fear"
+    },
+    {
+      "id": "30",
+      "text": "People who believed, completely, that Saint Vitus could curse them into dancing slipped into a trance, and did exactly what they feared.",
+      "audio": "audio/30.mp3",
+      "image": "images/30.png",
+      "prompt": "Close portrait of a 16th-century peasant woman in a trance, eyes half-closed, face lit by a single torch from the side, the rest in deep darkness"
+    },
+    {
+      "id": "31",
+      "text": "The stage made it worse, because it put the dance on display. The shrine ended it, because it gave believers a ritual they trusted.",
+      "audio": "audio/31.mp3",
+      "image": "images/31.png",
+      "prompt": "Candlelit mountain shrine altar with small wooden crosses and a pair of red shoes laid as offerings, soft warm light, darkness around"
+    },
+    {
+      "id": "32",
+      "text": "The dancing plague was not a poison, or a monster. It was what happens when fear spreads faster than food.",
+      "audio": "audio/32.mp3",
+      "image": "images/32.png",
+      "prompt": "Wide view of Strasbourg at night from across the river, the cathedral spire black against a dim sky, a few lights in windows, mist on the water",
+      "motion": "out"
+    },
+    {
+      "id": "33",
+      "text": "Hundreds of ordinary people danced until they collapsed. Not because something was done to them, but because their minds had nowhere left to go.",
+      "audio": "audio/33.mp3",
+      "image": "images/01.png",
+      "motion": "out"
+    }
+  ]
+}

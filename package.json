@@ -1,0 +1,14 @@
+{
+  "name": "dark-history-studio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Pipeline end-to-end de canal Dark History: pauta, roteiro, voz, imagens, render, SEO, upload e painel.",
+  "scripts": {
+    "painel": "node --no-warnings studio/server.js",
+    "cli": "node --no-warnings studio/cli.js"
+  },
+  "dependencies": {
+    "googleapis": "^144.0.0"
+  }
+}

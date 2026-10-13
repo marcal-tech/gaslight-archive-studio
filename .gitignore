@@ -1,0 +1,30 @@
+# Segredos e estado local
+secrets/
+data/studio.db*
+.env*
+
+# Dependências
+node_modules/
+
+# Mídia gerada (pesada) — o repositório guarda só o que é texto/código
+videos/*/build/
+videos/*/final.mp4
+videos/*/images/
+videos/*/audio/
+videos/*/clips/
+videos/*/archive/
+videos/*/*.png
+videos/*/thumbnail.jpg
+assets/teste/
+*.mp4
+*.mp3
+*.wav
+*.aiff
+.DS_Store
+
+# Testes e fontes duplicadas
+videos/pipeline-test-video/
+videos/test-compilation*/
+assets/brand/avatar-a.png
+assets/brand/avatar-b.png
+assets/brand/banner-src.png

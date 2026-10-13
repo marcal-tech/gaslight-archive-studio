@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gaslight Archive Studio</title>
+<style>
+:root {
+  color-scheme: dark;
+  --page: #0d0d0d; --surface-1: #1a1a19; --surface-2: #232321; --surface-3: #2c2c2a;
+  --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #898781;
+  --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10);
+  --series-1: #3987e5; --series-2: #d95926;
+  --good: #0ca30c; --warning: #fab219; --critical: #d03b3b;
+  --accent: #c9a24a;
+  --font: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--text-primary); font: 14px/1.45 var(--font); }
+button, input, textarea, select { font: inherit; color: inherit; }
+header { display: flex; align-items: center; gap: 16px; padding: 16px 24px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+header h1 { font-size: 17px; margin: 0; letter-spacing: .02em; }
+header h1 span { color: var(--accent); }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 99px; background: var(--surface-2); color: var(--text-secondary); font-size: 12px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.spacer { flex: 1; }
+nav { display: flex; gap: 4px; }
+nav button { background: none; border: 0; padding: 6px 12px; border-radius: 8px; color: var(--text-secondary); cursor: pointer; }
+nav button.on { background: var(--surface-2); color: var(--text-primary); }
+main { padding: 20px 24px 60px; max-width: 1500px; margin: 0 auto; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.kpi { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+.kpi .label { color: var(--text-muted); font-size: 12px; }
+.kpi .value { font-size: 28px; font-weight: 600; margin-top: 2px; }
+.kpi .sub { color: var(--text-secondary); font-size: 12px; }
+.meter { height: 6px; background: var(--surface-3); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--series-1); border-radius: 3px; }
+.card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+.card h2 { font-size: 14px; margin: 0 0 12px; font-weight: 600; }
+.view { display: none; } .view.on { display: block; }
+/* Kanban */
+.board { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(210px, 1fr); gap: 10px; overflow-x: auto; padding-bottom: 8px; }
+.col { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; min-height: 240px; }
+.col h3 { font-size: 12px; margin: 2px 4px 10px; color: var(--text-secondary); font-weight: 600; display: flex; justify-content: space-between; }
+.col h3 .gate { color: var(--accent); }
+.vcard { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 10px; margin-bottom: 8px; cursor: pointer; }
+.vcard:hover { border-color: var(--text-muted); }
+.vcard img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 6px; margin-bottom: 6px; display: block; }
+.vcard .t { font-weight: 500; font-size: 13px; }
+.vcard .m { color: var(--text-muted); font-size: 11px; margin-top: 4px; }
+.needs { border-left: 3px solid var(--accent); }
+/* Calendário */
+.cal-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.cal-head button { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 4px 10px; cursor: pointer; }
+.cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.cal .dow { color: var(--text-muted); font-size: 11px; text-align: center; }
+.day { background: var(--surface-1); border: 1px solid var(--border); border-radius: 8px; min-height: 96px; padding: 6px; }
+.day.out { opacity: .35; } .day.today { border-color: var(--accent); }
+.day .n { font-size: 11px; color: var(--text-muted); }
+.ev { font-size: 11px; padding: 3px 6px; border-radius: 5px; margin-top: 4px; cursor: pointer; background: var(--surface-3); border-left: 3px solid var(--series-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ev.pub { border-left-color: var(--good); }
+.ev.slot { border: 1px dashed var(--axis); background: none; color: var(--text-muted); cursor: default; }
+/* Progresso */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; } }
+.legend { display: flex; gap: 14px; font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+svg text { fill: var(--text-muted); font-size: 11px; font-family: var(--font); }
+.tip { position: fixed; pointer-events: none; background: var(--surface-3); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; font-size: 12px; display: none; z-index: 50; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--grid); }
+th { color: var(--text-muted); font-weight: 500; font-size: 12px; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.empty { color: var(--text-muted); padding: 30px; text-align: center; }
+/* Atividade */
+.feed { max-height: 420px; overflow: auto; }
+.feed div { padding: 6px 0; border-bottom: 1px solid var(--grid); font-size: 12px; color: var(--text-secondary); }
+.feed b { color: var(--text-primary); font-weight: 500; }
+.feed time { color: var(--text-muted); margin-right: 6px; }
+/* Drawer */
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(720px, 100%); background: var(--surface-1); border-left: 1px solid var(--border); transform: translateX(100%); transition: transform .2s; overflow: auto; z-index: 40; }
+.drawer.on { transform: none; }
+.drawer .in { padding: 20px 24px 60px; }
+.drawer h2 { margin: 0 0 4px; font-size: 18px; }
+.drawer h4 { margin: 20px 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); }
+.drawer video, .drawer .thumb { width: 100%; border-radius: 10px; background: #000; display: block; }
+.drawer pre { white-space: pre-wrap; background: var(--surface-2); padding: 12px; border-radius: 8px; max-height: 360px; overflow: auto; font: 13px/1.55 var(--font); color: var(--text-secondary); }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.btn { border: 1px solid var(--border); background: var(--surface-3); padding: 7px 14px; border-radius: 8px; cursor: pointer; }
+.btn.primary { background: var(--accent); color: #111; border-color: transparent; font-weight: 600; }
+.btn.danger { color: #e66767; }
+.close { float: right; background: none; border: 0; font-size: 22px; cursor: pointer; color: var(--text-muted); }
+.tags span { display: inline-block; background: var(--surface-2); padding: 2px 8px; border-radius: 99px; font-size: 12px; margin: 0 4px 4px 0; color: var(--text-secondary); }
+form.idea { display: grid; gap: 8px; }
+form.idea input, form.idea textarea { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
+.row { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; margin-top: 12px; }
+@media (max-width: 900px) { .row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>☾ Gaslight Archive <span>Studio</span></h1>
+  <span class="pill" id="yt"></span>
+  <span class="pill" id="slot"></span>
+  <div class="spacer"></div>
+  <nav>
+    <button data-v="pipeline" class="on">Pipeline</button>
+    <button data-v="calendar">Calendário</button>
+    <button data-v="progress">Progresso</button>
+  </nav>
+</header>
+<main>
+  <section class="kpis" id="kpis"></section>
+
+  <section class="view on" id="v-pipeline">
+    <div class="board" id="board"></div>
+    <div class="row">
+      <div class="card"><h2>Atividade</h2><div class="feed" id="feed"></div></div>
+      <div class="card"><h2>Nova pauta</h2>
+        <form class="idea" id="ideaForm">
+          <input name="title" placeholder="Título provisório (em inglês)" required>
+          <textarea name="angle" rows="3" placeholder="Ângulo / por que isso prende a atenção"></textarea>
+          <button class="btn primary">Adicionar ideia</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="v-calendar">
+    <div class="card">
+      <div class="cal-head"><button id="prev">‹</button><h2 id="calTitle" style="margin:0"></h2><button id="next">›</button>
+        <span class="spacer"></span>
+        <span class="legend"><span><i style="background:var(--series-1)"></i>Agendado</span><span><i style="background:var(--good)"></i>Publicado</span><span><i style="border:1px dashed var(--axis)"></i>Slot livre</span></span>
+      </div>
+      <div class="cal" id="cal"></div>
+    </div>
+  </section>
+
+  <section class="view" id="v-progress">
+    <div class="grid2">
+      <div class="card"><h2>Produção por semana</h2>
+        <div class="legend"><span><i style="background:var(--series-1)"></i>Finalizados</span><span><i style="background:var(--series-2)"></i>Foram ao ar</span><span>- - meta</span></div>
+        <div id="weekly"></div></div>
+      <div class="card"><h2>Views totais do canal</h2><div id="views"></div></div>
+    </div>
+    <div class="card" style="margin-top:12px"><h2>Vídeos publicados</h2><div id="pubTable"></div></div>
+  </section>
+</main>
+
+<aside class="drawer" id="drawer"><div class="in" id="drawerIn"></div></aside>
+<div class="tip" id="tip"></div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmtDate = (iso, opt = { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) => iso ? new Date(iso).toLocaleString('pt-BR', opt) : '';
+const dbTs = (ts) => ts.includes('T') ? ts : ts.replace(' ', 'T') + 'Z';
+const nf = new Intl.NumberFormat('pt-BR');
+const GATES = { idea: 'aprovar pauta', script_review: 'aprovar roteiro', final_review: 'aprovar vídeo' };
+let S = null, calMonth = new Date(), openSlug = null;
+
+async function load(refreshDrawer) {
+  S = await (await fetch('/api/state')).json();
+  renderHeader(); renderKpis(); renderBoard(); renderFeed(); renderCal(); renderProgress();
+  if (refreshDrawer && openSlug) openVideo(openSlug, true);
+}
+
+function renderHeader() {
+  $('#yt').innerHTML = `<i class="dot" style="background:var(--good)"></i>${S.ytAuth ? 'YouTube API conectada' : 'Publicação via YouTube Studio'}`;
+  $('#slot').textContent = 'Próximo slot: ' + fmtDate(S.nextSlot);
+}
+
+function renderKpis() {
+  const k = S.kpis;
+  const pct = Math.min(100, (k.thisWeek / k.goal) * 100);
+  $('#kpis').innerHTML = `
+    <div class="kpi"><div class="label">Em produção</div><div class="value">${k.inProduction}</div></div>
+    <div class="kpi"><div class="label">Aguardando você</div><div class="value" style="color:${k.awaitingYou ? 'var(--accent)' : ''}">${k.awaitingYou}</div><div class="sub">aprovações pendentes</div></div>
+    <div class="kpi"><div class="label">Agendados</div><div class="value">${k.scheduled}</div></div>
+    <div class="kpi"><div class="label">Publicados</div><div class="value">${k.published}</div><div class="sub">${nf.format(k.totalViews)} views</div></div>
+    <div class="kpi"><div class="label">Meta da semana</div><div class="value">${k.thisWeek}<span style="font-size:16px;color:var(--text-muted)"> / ${k.goal}</span></div><div class="meter"><i style="width:${pct}%"></i></div></div>
+    <div class="kpi"><div class="label">Créditos Higgsfield</div><div class="value">${k.creditsTotal.toFixed(1)}</div><div class="sub">${k.avgCreditsPerVideo != null ? k.avgCreditsPerVideo.toFixed(1) + ' por vídeo' : 'sem média ainda'}</div></div>`;
+}
+
+function renderBoard() {
+  $('#board').innerHTML = S.stages.map((st) => {
+    const vids = S.videos.filter((v) => v.status === st.id);
+    if (st.id === 'scheduled') vids.sort((a, b) => (a.scheduled_at || '').localeCompare(b.scheduled_at || ''));
+    return `<div class="col"><h3><span>${st.label} ${GATES[st.id] ? '<span class="gate" title="Precisa da sua aprovação">●</span>' : ''}</span><span>${vids.length}</span></h3>
+      ${vids.map((v) => `<div class="vcard ${GATES[v.status] ? 'needs' : ''}" data-slug="${v.slug}">
+        ${v.thumb ? `<img src="${v.thumb}" alt="">` : ''}
+        <div class="t">${esc(v.title)}</div>
+        <div class="m">${v.scheduled_at ? '📅 ' + fmtDate(v.scheduled_at) : ''}${v.duration_sec ? ' · ' + (v.duration_sec / 60).toFixed(1) + ' min' : ''}${v.views ? ' · ' + nf.format(v.views) + ' views' : ''}</div>
+      </div>`).join('') || '<div class="m" style="color:var(--text-muted);font-size:12px;padding:4px">—</div>'}
+    </div>`;
+  }).join('');
+  document.querySelectorAll('.vcard').forEach((el) => el.onclick = () => openVideo(el.dataset.slug));
+}
+
+function renderFeed() {
+  $('#feed').innerHTML = S.events.map((e) => `<div><time>${fmtDate(dbTs(e.ts))}</time>${e.title ? `<b>${esc(e.title)}</b> · ` : ''}${esc(e.message || e.type)}</div>`).join('') || '<div>Sem atividade ainda.</div>';
+}
+
+function renderCal() {
+  const y = calMonth.getFullYear(), m = calMonth.getMonth();
+  $('#calTitle').textContent = calMonth.toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
+  const first = new Date(y, m, 1);
+  const start = new Date(first); start.setDate(1 - ((first.getDay() + 6) % 7));
+  const today = new Date().toDateString();
+  const key = (d) => d.toLocaleDateString('en-CA');
+  const byDay = {};
+  for (const v of S.videos) {
+    const at = v.published_at || v.scheduled_at;
+    if (!at || v.status === 'rejected') continue;
+    (byDay[key(new Date(at))] ||= []).push(v);
+  }
+  let html = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'].map((d) => `<div class="dow">${d}</div>`).join('');
+  for (let i = 0; i < 42; i++) {
+    const d = new Date(start); d.setDate(start.getDate() + i);
+    const evs = byDay[key(d)] || [];
+    const slotDay = S.slots.days.includes(d.getDay()) && d > new Date();
+    html += `<div class="day ${d.getMonth() !== m ? 'out' : ''} ${d.toDateString() === today ? 'today' : ''}"><div class="n">${d.getDate()}</div>
+      ${evs.map((v) => `<div class="ev ${v.status === 'published' ? 'pub' : ''}" data-slug="${v.slug}" title="${esc(v.title)}">${esc(v.title)}</div>`).join('')}
+      ${slotDay && !evs.length ? '<div class="ev slot">slot livre</div>' : ''}</div>`;
+  }
+  $('#cal').innerHTML = html;
+  document.querySelectorAll('.ev[data-slug]').forEach((el) => el.onclick = () => openVideo(el.dataset.slug));
+}
+
+// ---------- Gráficos ----------
+const tip = $('#tip');
+function showTip(e, html) { tip.innerHTML = html; tip.style.display = 'block'; tip.style.left = Math.min(e.clientX + 12, innerWidth - 200) + 'px'; tip.style.top = e.clientY + 12 + 'px'; }
+function hideTip() { tip.style.display = 'none'; }
+
+function renderProgress() {
+  // Barras agrupadas: finalizados x foram ao ar, com linha de meta.
+  const W = 620, H = 220, L = 28, B = 26, T = 10;
+  const max = Math.max(S.kpis.goal + 1, ...S.weeks.flatMap((w) => [w.produced, w.published]));
+  const bw = (W - L) / S.weeks.length;
+  const y = (v) => T + (H - T - B) * (1 - v / max);
+  let svg = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Vídeos finalizados e publicados por semana">`;
+  for (let t = 0; t <= max; t += Math.max(1, Math.ceil(max / 4))) svg += `<line x1="${L}" x2="${W}" y1="${y(t)}" y2="${y(t)}" stroke="var(--grid)"/><text x="${L - 6}" y="${y(t) + 4}" text-anchor="end">${t}</text>`;
+  S.weeks.forEach((w, i) => {
+    const x = L + i * bw, b = Math.min(14, bw / 3);
+    const bar = (val, off, c) => val ? `<path d="M${x + off},${y(0)} V${y(val) + 3} q0,-3 3,-3 h${b - 6} q3,0 3,3 V${y(0)} Z" fill="${c}"/>` : '';
+    svg += bar(w.produced, bw / 2 - b - 1, 'var(--series-1)') + bar(w.published, bw / 2 + 1, 'var(--series-2)');
+    if (i % 2 === S.weeks.length % 2 || i === S.weeks.length - 1) svg += `<text x="${x + bw / 2}" y="${H - 8}" text-anchor="middle">${new Date(w.week + 'T12:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}</text>`;
+    svg += `<rect class="hit" data-i="${i}" x="${x}" y="${T}" width="${bw}" height="${H - T - B}" fill="transparent"/>`;
+  });
+  svg += `<line x1="${L}" x2="${W}" y1="${y(S.kpis.goal)}" y2="${y(S.kpis.goal)}" stroke="var(--text-secondary)" stroke-dasharray="4 4"/>`;
+  svg += `<line x1="${L}" x2="${W}" y1="${y(0)}" y2="${y(0)}" stroke="var(--axis)"/></svg>`;
+  $('#weekly').innerHTML = svg;
+  $('#weekly').querySelectorAll('.hit').forEach((r) => {
+    r.onmousemove = (e) => { const w = S.weeks[r.dataset.i]; showTip(e, `Semana de ${new Date(w.week + 'T12:00').toLocaleDateString('pt-BR')}<br>Finalizados: <b>${w.produced}</b><br>Foram ao ar: <b>${w.published}</b> / meta ${S.kpis.goal}`); };
+    r.onmouseleave = hideTip;
+  });
+
+  // Linha de views do canal.
+  const pts = S.channel;
+  if (pts.length < 2) {
+    $('#views').innerHTML = `<div class="empty">${S.ytAuth ? 'Os dados aparecem conforme o painel sincroniza as estatísticas (npm run cli -- stats).' : 'Conecte o YouTube para ver a evolução do canal.'}</div>`;
+  } else {
+    const vmax = Math.max(...pts.map((p) => p.views)) * 1.1 || 1;
+    const t0 = new Date(dbTs(pts[0].ts)).getTime(), t1 = new Date(dbTs(pts.at(-1).ts)).getTime();
+    const px = (p) => L + (W - L - 10) * ((new Date(dbTs(p.ts)).getTime() - t0) / (t1 - t0 || 1));
+    const py = (v) => T + (H - T - B) * (1 - v / vmax);
+    let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Views totais do canal ao longo do tempo">`;
+    for (let k = 0; k <= 4; k++) { const v = (vmax / 4) * k; s += `<line x1="${L}" x2="${W}" y1="${py(v)}" y2="${py(v)}" stroke="var(--grid)"/><text x="${L - 6}" y="${py(v) + 4}" text-anchor="end">${v >= 1000 ? Math.round(v / 1000) + 'k' : Math.round(v)}</text>`; }
+    s += `<path d="${pts.map((p, i) => (i ? 'L' : 'M') + px(p) + ',' + py(p.views)).join(' ')}" fill="none" stroke="var(--series-1)" stroke-width="2"/>`;
+    s += `<line id="xh" y1="${T}" y2="${H - B}" stroke="var(--axis)" style="display:none"/><circle id="xd" r="4" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="2" style="display:none"/>`;
+    s += `<rect id="vh" x="${L}" y="${T}" width="${W - L}" height="${H - T - B}" fill="transparent"/></svg>`;
+    $('#views').innerHTML = s;
+    const svgEl = $('#views svg'), hit = $('#vh');
+    hit.onmousemove = (e) => {
+      const r = svgEl.getBoundingClientRect(), mx = ((e.clientX - r.left) / r.width) * W;
+      const p = pts.reduce((a, b) => Math.abs(px(b) - mx) < Math.abs(px(a) - mx) ? b : a);
+      for (const id of ['xh', 'xd']) $('#' + id).style.display = '';
+      $('#xh').setAttribute('x1', px(p)); $('#xh').setAttribute('x2', px(p));
+      $('#xd').setAttribute('cx', px(p)); $('#xd').setAttribute('cy', py(p.views));
+      showTip(e, `${fmtDate(dbTs(p.ts), { day: '2-digit', month: 'short' })}<br>Views: <b>${nf.format(p.views)}</b><br>Inscritos: <b>${nf.format(p.subscribers)}</b>`);
+    };
+    hit.onmouseleave = () => { hideTip(); for (const id of ['xh', 'xd']) $('#' + id).style.display = 'none'; };
+  }
+
+  const pub = S.videos.filter((v) => v.youtube_id).sort((a, b) => (b.scheduled_at || '').localeCompare(a.scheduled_at || ''));
+  $('#pubTable').innerHTML = pub.length ? `<table><tr><th>Vídeo</th><th>Status</th><th>Data</th><th class="num">Views</th><th class="num">Likes</th><th class="num">Coment.</th><th class="num">Créditos</th></tr>
+    ${pub.map((v) => `<tr><td><a href="https://youtu.be/${v.youtube_id}" target="_blank" style="color:var(--text-primary)">${esc(v.title)}</a></td><td>${v.status === 'published' ? 'no ar' : 'agendado'}</td><td>${fmtDate(v.published_at || v.scheduled_at, { day: '2-digit', month: 'short' })}</td>
+      <td class="num">${nf.format(v.views)}</td><td class="num">${nf.format(v.likes)}</td><td class="num">${nf.format(v.comments)}</td><td class="num">${v.credits.toFixed(1)}</td></tr>`).join('')}</table>` : '<div class="empty">Nenhum vídeo enviado ao YouTube ainda.</div>';
+}
+
+// ---------- Detalhe do vídeo ----------
+async function openVideo(slug, silent) {
+  openSlug = slug;
+  const v = await (await fetch('/api/video/' + slug)).json();
+  const act = (status, label, cls = '', note) => `<button class="btn ${cls}" data-act="${status}" ${note ? 'data-note="1"' : ''}>${label}</button>`;
+  let actions = '';
+  if (v.status === 'idea') actions = act('approved', 'Aprovar pauta', 'primary') + act('rejected', 'Descartar', 'danger');
+  if (v.status === 'script_review') actions = act('producing', 'Aprovar roteiro', 'primary') + act('scripting', 'Pedir ajustes', '', true);
+  if (v.status === 'final_review') actions = `<button class="btn primary" data-publish>Aprovar e agendar no YouTube</button>` + act('producing', 'Pedir ajustes', '', true);
+  const seo = v.seo;
+  const credits = v.credits.reduce((a, c) => a + c.total, 0);
+  $('#drawerIn').innerHTML = `
+    <button class="close" id="closeD">×</button>
+    <h2>${esc(v.title)}</h2>
+    <div style="color:var(--text-muted);font-size:12px">${esc(S.stages.find((s) => s.id === v.status)?.label || v.status)} · ${v.slug}${credits ? ` · ${credits.toFixed(1)} créditos` : ''}${v.youtube_id ? ` · <a href="https://youtu.be/${v.youtube_id}" target="_blank" style="color:var(--accent)">youtu.be/${v.youtube_id}</a>` : ''}</div>
+    ${v.angle ? `<p style="color:var(--text-secondary)">${esc(v.angle)}</p>` : ''}
+    <div class="actions">${actions}</div>
+    ${['final_review', 'ready', 'scheduled', 'published'].includes(v.status) ? `<h4>Agendamento</h4>
+      <div style="display:flex;gap:8px;align-items:center"><input type="datetime-local" id="when" value="${v.scheduled_at ? new Date(new Date(v.scheduled_at).getTime() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 16) : ''}" style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:6px" ${v.youtube_id ? 'disabled' : ''}>
+      ${v.youtube_id ? '<span style="color:var(--text-muted);font-size:12px">já enviado — altere no YouTube Studio</span>' : '<button class="btn" id="saveWhen">Salvar data</button><button class="btn" id="autoWhen">Próximo slot</button>'}</div>` : ''}
+    ${v.hasFinal ? `<h4>Vídeo final ${v.duration_sec ? '· ' + (v.duration_sec / 60).toFixed(1) + ' min' : ''}</h4><video controls preload="metadata" src="/media/${v.slug}/final.mp4"></video>` : ''}
+    ${v.thumb ? `<h4>Thumbnail</h4><img class="thumb" src="/media/${v.slug}/${v.thumb}" alt="">` : ''}
+    ${v.assets ? `<h4>Assets</h4><div style="color:var(--text-secondary)">${v.assets.scenes} cenas · ${v.assets.images} imagens · ${v.assets.audio} áudios</div>` : ''}
+    ${seo ? `<h4>SEO</h4><div style="font-weight:600">${esc(seo.title)}</div><pre>${esc(seo.description)}</pre><div class="tags">${(seo.tags || []).map((t) => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
+    ${v.script ? `<h4>Roteiro ${v.word_count ? '· ' + v.word_count + ' palavras' : ''}</h4><pre>${esc(v.script)}</pre>` : ''}
+    ${v.research ? `<h4>Pesquisa e fontes</h4><pre>${esc(v.research)}</pre>` : ''}
+    <h4>Histórico</h4><div class="feed">${v.events.map((e) => `<div><time>${fmtDate(dbTs(e.ts))}</time>${esc(e.message || e.type)}</div>`).join('')}</div>`;
+  $('#drawer').classList.add('on');
+  $('#closeD').onclick = () => { $('#drawer').classList.remove('on'); openSlug = null; };
+  document.querySelectorAll('[data-act]').forEach((b) => b.onclick = async () => {
+    let note = null;
+    if (b.dataset.note) { note = prompt('O que precisa mudar?'); if (note === null) return; }
+    await fetch(`/api/video/${slug}/status`, { method: 'POST', body: JSON.stringify({ status: b.dataset.act, note }) });
+    load(true);
+  });
+  const pubBtn = document.querySelector('[data-publish]');
+  if (pubBtn) pubBtn.onclick = async () => {
+        const when = $('#when')?.value;
+    if (when) await fetch(`/api/video/${slug}/schedule`, { method: 'POST', body: JSON.stringify({ when: new Date(when).toISOString() }) });
+    if (!confirm(S.ytAuth ? 'Enviar ao YouTube e agendar a estreia?' : 'Aprovar? O Trevor publica pelo YouTube Studio e agenda a estreia.')) return;
+    const r = await (await fetch(`/api/video/${slug}/publish`, { method: 'POST' })).json();
+    if (r.error) alert(r.error); else { pubBtn.textContent = r.via === 'studio' ? 'Aprovado — aguardando o Trevor publicar' : 'Enviando...'; pubBtn.disabled = true; load(true); }
+  };
+  if ($('#saveWhen')) $('#saveWhen').onclick = async () => { await fetch(`/api/video/${slug}/schedule`, { method: 'POST', body: JSON.stringify({ when: new Date($('#when').value).toISOString() }) }); load(true); };
+  if ($('#autoWhen')) $('#autoWhen').onclick = async () => { await fetch(`/api/video/${slug}/schedule`, { method: 'POST', body: '{}' }); load(true); };
+}
+
+document.querySelectorAll('nav button').forEach((b) => b.onclick = () => {
+  document.querySelectorAll('nav button').forEach((x) => x.classList.toggle('on', x === b));
+  document.querySelectorAll('.view').forEach((v) => v.classList.toggle('on', v.id === 'v-' + b.dataset.v));
+});
+$('#prev').onclick = () => { calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() - 1, 1); renderCal(); };
+$('#next').onclick = () => { calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + 1, 1); renderCal(); };
+$('#ideaForm').onsubmit = async (e) => {
+  e.preventDefault();
+  const f = new FormData(e.target);
+  await fetch('/api/idea', { method: 'POST', body: JSON.stringify({ title: f.get('title'), angle: f.get('angle') }) });
+  e.target.reset(); load();
+};
+load();
+setInterval(() => { if (!document.hidden) load(); }, 15000);
+</script>
+</body>
+</html>
